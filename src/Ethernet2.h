@@ -13,8 +13,8 @@
 #include <inttypes.h>
 #include "utility/w5500.h"
 #include "IPAddress.h"
-#include "EthernetClient2.h"
-#include "EthernetServer2.h"
+#include "EthernetClient.h"
+#include "EthernetServer.h"
 #include "Dhcp.h"
 
 
