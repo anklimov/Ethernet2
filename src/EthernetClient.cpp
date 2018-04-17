@@ -45,7 +45,7 @@ int EthernetClient::connect(IPAddress ip, uint16_t port) {
     uint8_t s = w5500.readSnSR(i);
     if (s == SnSR::CLOSED || s == SnSR::FIN_WAIT || s == SnSR::CLOSE_WAIT) {
       _sock = i;
-      Serial.print("Alloc: ");Serial.println(s,HEX); ///
+    //  Serial.print("Alloc: ");Serial.println(s,HEX); ///
       break;
     }
   }
@@ -58,15 +58,17 @@ int EthernetClient::connect(IPAddress ip, uint16_t port) {
   //_srcport+=random()*64; ///////
   if (_srcport == 0) _srcport = 1024;
   socket(_sock, SnMR::TCP, _srcport, 0);
-  Serial.print("connecting");Serial.print(" s:");Serial.print(_sock); Serial.print(" sport:");Serial.print(_srcport);  Serial.print(" dport:");Serial.print(port); Serial.print(" IP:");
+ // Serial.print("connecting");Serial.print(" s:");Serial.print(_sock); Serial.print(" sport:");Serial.print(_srcport);  Serial.print(" dport:");Serial.print(port); Serial.print(" IP:");
   
+ /*
   for (byte thisByte = 0; thisByte < 4; thisByte++) {
     // print the value of each byte of the IP address:
     Serial.print(rawIPAddress(ip)[thisByte], DEC);
     Serial.print(".");
     }
+*/
 
- Serial.println();    
+ //Serial.println();    
   if (!::connect(_sock, rawIPAddress(ip), port)) {
     _sock = MAX_SOCK_NUM;
     return 0;
