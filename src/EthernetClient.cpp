@@ -15,6 +15,7 @@ extern "C" {
 uint16_t EthernetClient::_srcport = 1024;
 
 EthernetClient::EthernetClient() : _sock(MAX_SOCK_NUM) {
+//Serial.println(_sock);
 }
 
 EthernetClient::EthernetClient(uint8_t sock) : _sock(sock) {
@@ -36,16 +37,19 @@ int EthernetClient::connect(const char* host, uint16_t port) {
 }
 
 int EthernetClient::connect(IPAddress ip, uint16_t port) {
-  if (_sock != MAX_SOCK_NUM)
+  if (_sock != MAX_SOCK_NUM) {
+    Serial.print(_sock);
+    Serial.println(" - Client busy");
     return 0;
-    
-    
+    }
+    Serial.println();
 
   for (int i = 0; i < MAX_SOCK_NUM; i++) {
     uint8_t s = w5500.readSnSR(i);
+     Serial.print("S: ");Serial.print(i,HEX);  Serial.print(" SnSRt: ");Serial.println(s,HEX); ///
     if (s == SnSR::CLOSED || s == SnSR::FIN_WAIT || s == SnSR::CLOSE_WAIT) {
       _sock = i;
-    //  Serial.print("Alloc: ");Serial.println(s,HEX); ///
+      Serial.print("Socket: ");Serial.println(_sock,HEX); ///
       break;
     }
   }
@@ -55,20 +59,20 @@ int EthernetClient::connect(IPAddress ip, uint16_t port) {
     return 0;
 
   _srcport++;
-  //_srcport+=random()*64; ///////
-  if (_srcport == 0) _srcport = 1024;
+  _srcport+=millis() & 0xFF; ///////
+  if (_srcport < 1024 ) _srcport = 1024;
   socket(_sock, SnMR::TCP, _srcport, 0);
  // Serial.print("connecting");Serial.print(" s:");Serial.print(_sock); Serial.print(" sport:");Serial.print(_srcport);  Serial.print(" dport:");Serial.print(port); Serial.print(" IP:");
   
- /*
+ 
   for (byte thisByte = 0; thisByte < 4; thisByte++) {
     // print the value of each byte of the IP address:
     Serial.print(rawIPAddress(ip)[thisByte], DEC);
     Serial.print(".");
     }
-*/
 
- //Serial.println();    
+
+ Serial.println();    
   if (!::connect(_sock, rawIPAddress(ip), port)) {
     _sock = MAX_SOCK_NUM;
     return 0;
@@ -84,7 +88,7 @@ int EthernetClient::connect(IPAddress ip, uint16_t port) {
       return 0;
     }
   }
-
+Serial.println("Established");
   return 1;
 }
 
@@ -159,6 +163,7 @@ void EthernetClient::stop() {
 
   EthernetClass::_server_port[_sock] = 0;
   _sock = MAX_SOCK_NUM;
+  Serial.println("Closed");
 }
 
 uint8_t EthernetClient::connected() {

@@ -158,8 +158,7 @@ int DNSClient::getHostByName(const char* aHostname, IPAddress& aResult)
                         {  
                         //Serial.println("Req");
                             ret = ProcessResponse(5000, aResult);
-                        //     Serial.println ("Res");
-                        
+                             
                             wait_retries++;
                         }
                     }
@@ -171,7 +170,8 @@ int DNSClient::getHostByName(const char* aHostname, IPAddress& aResult)
         // We're done with the socket now
         iUdp.stop();
     }
-
+  Serial.print ("Res=");Serial.println (ret);
+                        
     return ret;
 }
 
@@ -266,7 +266,7 @@ uint16_t DNSClient::ProcessResponse(uint16_t aTimeout, IPAddress& aAddress)
             return TIMED_OUT;
         delay(50);
     }
-
+//Serial.println("Got DNS resp");
     // We've had a reply!
     // Read the UDP header
     uint8_t header[DNS_HEADER_SIZE]; // Enough space to reuse for the DNS header
