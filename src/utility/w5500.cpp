@@ -20,7 +20,7 @@
 
 // W5500 controller instance
 W5500Class w5500;
-
+bool initOnce = true;
 // SPI details
 SPISettings wiznet_SPI_settings(8000000, MSBFIRST, SPI_MODE0);
 uint8_t SPI_CS;
@@ -29,15 +29,23 @@ void W5500Class::init(uint8_t ss_pin)
 {
   SPI_CS = ss_pin;
 
+
+  if (initOnce)
+  {
+  initOnce=false;
+
   delay(1000);
   initSS();
   SPI.begin();
   w5500.swReset();
+
   for (int i=0; i<MAX_SOCK_NUM; i++) {
     uint8_t cntl_byte = (0x0C + (i<<5));
     write( 0x1E, cntl_byte, 2); //0x1E - Sn_RXBUF_SIZE
     write( 0x1F, cntl_byte, 2); //0x1F - Sn_TXBUF_SIZE
   }
+  }
+  else Serial.println("Init skipped");
 }
 
 uint16_t W5500Class::getTXFreeSize(SOCKET s)
@@ -145,7 +153,8 @@ uint8_t W5500Class::read(uint16_t _addr, uint8_t _cb)
 }
 
 uint16_t W5500Class::read(uint16_t _addr, uint8_t _cb, uint8_t *_buf, uint16_t _len)
-{ 
+{  
+    if (!_buf) return 0;
     SPI.beginTransaction(wiznet_SPI_settings);
     setSS();
     SPI.transfer(_addr >> 8);

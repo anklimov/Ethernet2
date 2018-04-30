@@ -53,7 +53,7 @@ int EthernetClient::connect(IPAddress ip, uint16_t port) {
       break;
     }
   }
-   close(_sock); ////
+  // close(_sock); ////
    
   if (_sock == MAX_SOCK_NUM)
     return 0;

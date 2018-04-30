@@ -89,7 +89,6 @@ void EthernetClass::begin(IPAddress local_ip, IPAddress dns_server, IPAddress ga
 //digitalWrite(37,LOW);
 //delay (500);
 //digitalWrite(37,HIGH);
-
 //Serial.println("EthernetClass::begin");
    if (_dhcp != NULL) {
      delete _dhcp;
@@ -99,6 +98,7 @@ void EthernetClass::begin(IPAddress local_ip, IPAddress dns_server, IPAddress ga
   w5500.init(w5500_cspin);
   w5500.setMACAddress(mac_address);
   w5500.setIPAddress(IPAddress(0,0,0,0).raw_address());
+ if (! (w5500.getPHYCFGR() & 1)) return 0;
 
   // Now try to get our config info from a DHCP server
   //int ret = _dhcp->beginWithDHCP(mac_address);
@@ -156,6 +156,7 @@ void EthernetClass::begin(uint8_t *mac, IPAddress local_ip, IPAddress dns_server
 
 int EthernetClass::maintain(){
   int rc = DHCP_CHECK_NONE;
+  if (! (w5500.getPHYCFGR() & 1)) return NO_LINK;
   if(_dhcp != NULL){
     //we have a pointer to dhcp, use it
     rc = _dhcp->checkLease();

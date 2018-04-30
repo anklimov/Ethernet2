@@ -9,6 +9,7 @@
  */
 #ifndef ethernet_h
 #define ethernet_h
+#define NO_LINK (5)
 
 #include <inttypes.h>
 #include "utility/w5500.h"
