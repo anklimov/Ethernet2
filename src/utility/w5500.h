@@ -334,11 +334,11 @@ public:
   static const uint16_t SSIZE = 2048; // Max Tx buffer size
 private:
   static const uint16_t RSIZE = 2048; // Max Rx buffer size
-
+public:
+static inline void initSS()  { pinMode(SPI_CS, OUTPUT); }
 private:
   // could do inline optimizations
-  static inline void initSS()  { pinMode(SPI_CS, OUTPUT); }
-  static inline void setSS()   {  digitalWrite(SPI_CS, LOW); }
+    static inline void setSS()   {  digitalWrite(SPI_CS, LOW); }
   static inline void resetSS() {  digitalWrite(SPI_CS, HIGH); }
 };
 

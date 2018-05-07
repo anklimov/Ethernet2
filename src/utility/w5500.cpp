@@ -34,7 +34,7 @@ void W5500Class::init(uint8_t ss_pin)
   {
   initOnce=false;
 
-  delay(1000);
+  delay(2000);
   initSS();
   SPI.begin();
   w5500.swReset();
