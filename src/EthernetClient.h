@@ -5,6 +5,10 @@
 #include "Client.h"
 #include "IPAddress.h"
 
+#ifndef CONNECT_TIME
+#define CONNECT_TIME 15000UL
+#endif
+
 class EthernetClient : public Client {
 
 public:

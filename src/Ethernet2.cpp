@@ -217,3 +217,5 @@ char* EthernetClass::hostName(){
 }
 
 EthernetClass Ethernet;
+void ethernetIdle(void) __attribute__ ((weak));
+void ethernetIdle(void) {};

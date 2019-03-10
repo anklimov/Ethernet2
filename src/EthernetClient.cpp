@@ -78,10 +78,13 @@ int EthernetClient::connect(IPAddress ip, uint16_t port) {
     return 0;
   }
  
-
-  while (status() != SnSR::ESTABLISHED) {
-  {    delay(10); 
-    //Serial.println(status(),HEX); 
+  unsigned long inTime = millis();
+  unsigned long outTime = inTime + CONNECT_TIME;;
+  while (status() != SnSR::ESTABLISHED && 
+         (inTime<outTime)? (millis()<outTime) : (millis()>0xffffffff/2 || millis()<outTime ) ) 
+  {
+   {   delay(10);
+       ethernetIdle(); 
     }
     if (status() == SnSR::CLOSED) {
       _sock = MAX_SOCK_NUM;

@@ -265,6 +265,7 @@ uint16_t DNSClient::ProcessResponse(uint16_t aTimeout, IPAddress& aAddress)
         if((millis() - startTime) > aTimeout)
             return TIMED_OUT;
         delay(50);
+        ethernetIdle();
     }
 //Serial.println("Got DNS resp");
     // We've had a reply!

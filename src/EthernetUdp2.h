@@ -101,5 +101,5 @@ public:
   // Return the port of the host who sent the current incoming packet
   virtual uint16_t remotePort() { return _remotePort; };
 };
-
+extern void ethernetIdle(void);
 #endif

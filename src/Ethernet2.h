@@ -72,5 +72,5 @@ public:
 };
 
 extern EthernetClass Ethernet;
-
+void ethernetIdle(void);
 #endif
