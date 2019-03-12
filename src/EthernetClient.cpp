@@ -80,7 +80,7 @@ int EthernetClient::connect(IPAddress ip, uint16_t port) {
  
   unsigned long inTime = millis();
   unsigned long outTime = inTime + CONNECT_TIME;;
-  while (status() != SnSR::ESTABLISHED && 
+  while ((status() != SnSR::ESTABLISHED) && 
          (inTime<outTime)? (millis()<outTime) : (millis()>0xffffffff/2 || millis()<outTime ) ) 
   {
    {   delay(10);
@@ -90,9 +90,16 @@ int EthernetClient::connect(IPAddress ip, uint16_t port) {
       _sock = MAX_SOCK_NUM;
       return 0;
     }
+
+    if (status() == SnSR::ESTABLISHED) {
+    Serial.println("Established");
+      return 1;
+    }
+     
   }
-Serial.println("Established");
-  return 1;
+  Serial.println("Timeout");
+  stop(); 
+  return 0;
 }
 
 size_t EthernetClient::write(uint8_t b) {
