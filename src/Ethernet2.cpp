@@ -219,3 +219,14 @@ char* EthernetClass::hostName(){
 EthernetClass Ethernet;
 void ethernetIdle(void) __attribute__ ((weak));
 void ethernetIdle(void) {};
+
+
+EthernetLinkStatus EthernetClass::linkStatus()
+{
+	switch (W5100.getLinkStatus()) {
+		case UNKNOWN:  return Unknown;
+		case LINK_ON:  return LinkON;
+		case LINK_OFF: return LinkOFF;
+		default:       return Unknown;
+	}
+}

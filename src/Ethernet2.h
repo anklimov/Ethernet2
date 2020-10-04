@@ -19,6 +19,12 @@
 #include "Dhcp.h"
 
 
+enum EthernetLinkStatus {
+	Unknown,
+	LinkON,
+	LinkOFF
+};
+
 
 class EthernetClass {
 private:
@@ -59,6 +65,10 @@ public:
 #endif
   
   int maintain();
+
+
+  EthernetLinkStatus linkStatus();
+
 
   IPAddress localIP();
   IPAddress subnetMask();
