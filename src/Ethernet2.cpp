@@ -223,10 +223,6 @@ void ethernetIdle(void) {};
 
 EthernetLinkStatus EthernetClass::linkStatus()
 {
-	switch (W5100.getLinkStatus()) {
-		case UNKNOWN:  return Unknown;
-		case LINK_ON:  return LinkON;
-		case LINK_OFF: return LinkOFF;
-		default:       return Unknown;
-	}
+  if (! (w5500.getPHYCFGR() & 1)) return LinkOFF;
+  return LinkON;
 }
