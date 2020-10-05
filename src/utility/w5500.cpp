@@ -45,7 +45,7 @@ void W5500Class::init(uint8_t ss_pin)
     write( 0x1F, cntl_byte, 2); //0x1F - Sn_TXBUF_SIZE
   }
   }
-  else Serial.println("Init skipped");
+//  else Serial.println("Init skipped");
 }
 
 uint16_t W5500Class::getTXFreeSize(SOCKET s)

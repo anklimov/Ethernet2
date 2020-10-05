@@ -222,7 +222,8 @@ void ethernetIdle(void) {};
 
 
 EthernetLinkStatus EthernetClass::linkStatus()
-{
+{     
+   w5500.init(w5500_cspin);
   if (! (w5500.getPHYCFGR() & 1)) return LinkOFF;
   return LinkON;
 }
